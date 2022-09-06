@@ -4,6 +4,30 @@ from typing import Tuple, List, Optional
 
 from torch import Tensor
 
+# pose vector index ------------------------------------------
+# wink                          0, 1
+# happy wink                    2, 3
+# surprised                     4, 5
+# relaxed                       6, 7
+# unimpressed                   8, 9
+# iris Shrinkage L              12
+# iris Shrinkage R              MOUTH_TOP
+# mouth aaa                     MOUTH_BOTTOM
+# mouth iii                     15
+# mouth uuu                     16
+# mouth eee                     17
+# mouth ooo                     18
+# mouth delta                   19
+# mouth lowered corner          18,19
+# mouth raised corner           20,21
+# mouth smirk                   22
+# Iris rotation                 25, 26
+
+# x,y,z                         27, 28, 29
+# ------------------------------------------------------------
+
+
+
 
 class PoseParameterCategory(Enum):
     EYEBROW = 1

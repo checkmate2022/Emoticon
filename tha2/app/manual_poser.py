@@ -11,7 +11,8 @@ import wx
 import PIL.Image
 
 from tha2.poser.poser import Poser, PoseParameterCategory, PoseParameterGroup
-from tha2.util import extract_PIL_image_from_filelike, resize_PIL_image, extract_pytorch_image_from_PIL_image, convert_output_image_from_torch_to_numpy
+from tha2.util import extract_PIL_image_from_filelike, resize_PIL_image, extract_pytorch_image_from_PIL_image, \
+    convert_output_image_from_torch_to_numpy
 
 
 class MorphCategoryControlPanel(wx.Panel):
@@ -74,7 +75,9 @@ class MorphCategoryControlPanel(wx.Panel):
     def set_param_value(self, pose: List[float]):
         if len(self.param_groups) == 0:
             return
+        print(self.choice.GetSelection())
         selected_morph_index = self.choice.GetSelection()
+        # print(selected_morph_index)
         param_group = self.param_groups[selected_morph_index]
         param_index = param_group.get_parameter_index()
         if param_group.is_discrete():
@@ -83,11 +86,12 @@ class MorphCategoryControlPanel(wx.Panel):
                     pose[param_index + i] = 1.0
         else:
             param_range = param_group.get_range()
-            alpha = (self.left_slider.GetValue() + 1000) / 2000.0
+            alpha = 1
+            #print(self.param_groups, param_group,'param_index:',param_index, pose,  param_range)
             pose[param_index] = param_range[0] + (param_range[1] - param_range[0]) * alpha
-            if param_group.get_arity() == 2:
-                alpha = (self.right_slider.GetValue() + 1000) / 2000.0
-                pose[param_index + 1] = param_range[0] + (param_range[1] - param_range[0]) * alpha
+            # if param_group.get_arity() == 2:
+            #     alpha = (self.right_slider.GetValue() + 1000) / 2000.0
+            #     pose[param_index + 1] = param_range[0] + (param_range[1] - param_range[0]) * alpha
 
 
 class RotationControlPanel(wx.Panel):
@@ -195,6 +199,8 @@ class MainFrame(wx.Frame):
         self.morph_control_panels = {}
         for category in morph_categories:
             param_groups = self.poser.get_pose_parameter_groups()
+            # print(self.poser.get_pose_parameter_groups())
+            # print('category', category)
             filtered_param_groups = [group for group in param_groups if group.get_category() == category]
             if len(filtered_param_groups) == 0:
                 continue
